@@ -21,8 +21,8 @@ You do not need Xcode or Android Studio to run the app in Expo Go.
 1. Clone and install:
 
    ```bash
-   git clone <this repo's URL>
-   cd climb-log
+   git clone https://github.com/john-pat10/climbing.git
+   cd climbing
    npm install
    ```
 
