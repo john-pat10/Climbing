@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
     "expo": "~58.0.25",
     "expo-constants": "~58.0.16",
     "expo-linking": "~58.0.17",
     "expo-router": "~58.0.31",
+    "expo-sqlite": "~58.0.17",
     "expo-status-bar": "~58.0.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -29,10 +31,14 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests",
-    "check": "tsc --noEmit && jest --passWithNoTests"
+    "check": "tsc --noEmit && jest --passWithNoTests",
+    "test:db": "bash supabase/tests/run.sh"
   },
   "private": true,
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   }
 }

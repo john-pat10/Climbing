@@ -31,8 +31,10 @@ You do not need Xcode or Android Studio to run the app in Expo Go.
      `supabase/migrations/0001_init.sql`, and run it.
    - For development, turn off email confirmation: **Authentication → Sign In / Providers → Email →
      Confirm email** (off). Otherwise sign-up waits for an email link.
-   - Copy `.env.example` to `.env` and fill in your **Project URL** and **anon/publishable key**
-     from **Project Settings → API Keys**. Never use the `service_role`/secret key in the app.
+   - Copy `.env.example` to `.env` and fill in `EXPO_PUBLIC_SUPABASE_URL` (the **Project URL**) and
+     `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (the **publishable key**, or the legacy **anon** key) from
+     **Project Settings → API Keys**. Never use the `service_role`/secret key in the app.
+   - If you change `.env` while the dev server is running, restart it with `npx expo start --clear`.
 
 3. Start the dev server:
 
@@ -53,13 +55,18 @@ You do not need Xcode or Android Studio to run the app in Expo Go.
 | `npm run typecheck` | TypeScript type check |
 | `npm test` | Unit tests (Jest, `jest-expo` preset) |
 | `npm run check` | Type check + tests |
+| `npm run test:db` | Runs the migration on a throwaway local Postgres and checks the row-level security rules (needs PostgreSQL 15+ installed; optional) |
 
 ## Project structure
 
 ```
-src/app/        Expo Router screens (every file is a route)
-src/lib/        Supabase client, OpenBeta client, grade helpers
-supabase/       SQL migrations
+src/app/            Expo Router screens (every file is a route)
+  (auth)/           Log in / sign up (only reachable when signed out)
+  (tabs)/           History and Search tabs (only reachable when signed in)
+src/components/     Shared UI pieces
+src/lib/            Supabase client, auth state, validation (OpenBeta client and grades to come)
+supabase/migrations SQL to run in the Supabase SQL Editor
+supabase/tests      Database/RLS tests (npm run test:db)
 ```
 
 ## Data and licensing rules
@@ -77,5 +84,7 @@ supabase/       SQL migrations
 | `expo`, `react`, `react-native` | App framework |
 | `expo-router` (+ `react-native-screens`, `react-native-safe-area-context`, `expo-linking`, `expo-constants`) | File-based navigation; the others are its required peers |
 | `expo-status-bar` | Status bar styling (from the template) |
+| `@supabase/supabase-js` | Supabase client: auth and database queries |
+| `expo-sqlite` | Provides the on-device `localStorage` that keeps you signed in between launches (Expo's recommended setup for Supabase) |
 | `react-dom`, `react-native-web` | Lets the app run in a browser for quick checks, and pins `react-dom` to the SDK's React version (avoids an npm peer conflict) |
 | `jest`, `jest-expo`, `@types/jest` (dev) | Unit tests |
