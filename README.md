@@ -46,6 +46,17 @@ You do not need Xcode or Android Studio to run the app in Expo Go.
    computer must be on the same Wi-Fi network. If that doesn't work (e.g. on a work or guest
    network), try `npx expo start --tunnel`.
 
+### Run in a web browser
+
+The same code runs on the web. With your `.env` set up:
+
+```bash
+npm run web
+```
+
+This opens the app at http://localhost:8081. Press `w` in a running `npx expo start` to do the same.
+The web version is local-only for now; deploying it to a public URL comes later.
+
 ## Scripts
 
 | Command | What it does |
